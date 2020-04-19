@@ -25,7 +25,6 @@ public class SecurityConf extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
             .antMatchers("/**")
                 .access("hasIpAddress('127.0.0.1')");
-
         http.csrf().disable();
     }
         
@@ -34,9 +33,10 @@ public class SecurityConf extends WebSecurityConfigurerAdapter{
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                String port = environment.production() ? "" : ":3000";
+                String origin = environment.production() ?
+                        "https://harmonia.muurahainen.net" : "https://localhost:3000";
                 registry.addMapping("/**")
-                        .allowedOrigins("https://localhost" + port);
+                        .allowedOrigins(origin);
             }
         };
     }

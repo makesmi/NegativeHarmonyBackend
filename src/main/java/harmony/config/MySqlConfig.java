@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.Database;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@Profile({"dev", "prod"})
 public class MySqlConfig {
     @Autowired
     private RunEnvironment environment;
@@ -44,7 +46,7 @@ public class MySqlConfig {
                 "/home/ohjelmatiedostot/NegativeHarmonyBackend/d1.dat"
                 : "d1.dat";
         try {
-            return Files.readString(Paths.get(file));
+            return Files.readString(Paths.get(file)).trim();
         } catch (IOException ex) {
             return null;
         }
