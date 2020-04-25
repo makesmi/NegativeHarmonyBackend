@@ -2,9 +2,11 @@
 package harmony.config;
 
 import harmony.services.RunEnvironment;
+import harmony.services.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,12 +21,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConf extends WebSecurityConfigurerAdapter{
     @Autowired
     private RunEnvironment environment;
+    @Autowired
+    private TokenFilter filter;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+        http.addFilter(filter);
         http.authorizeRequests()
-            .antMatchers("/**")
-                .access("hasIpAddress('127.0.0.1')");
+            .antMatchers("/login").permitAll()
+            .antMatchers(HttpMethod.OPTIONS).permitAll()
+            .antMatchers("/**").authenticated();
         http.csrf().disable();
     }
         

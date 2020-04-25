@@ -12,6 +12,7 @@
             <properties>
                 <exec.args>-classpath %classpath harmony.HarmonyApplication</exec.args>
                 <exec.executable>java</exec.executable>
+				<netbeans.compile.on.save>all</netbeans.compile.on.save>
             </properties>
         </action>
     </actions>
